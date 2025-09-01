@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pay Bill - Mauli Cafe</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body>
+    <div class="bill-container">
+      <div class="bill-header">
+        <!-- Replace with your logo -->
+        <h2>MAULI CAFE</h2>
+        <p>
+          +91 9876543210 | Dhankar len, Ravivar Karanja, front of Tuljabhavani
+          Temple
+        </p>
+      </div>
+
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Rate (₹)</th>
+            <th>Total (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quntity }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.price * item.quntity }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="summary mt-4">
+        <p>
+          <span>Subtotal:</span> <span>₹{{ "%.2f"|format(subtotal) }}</span>
+        </p>
+        <p><span>GST (12%):</span> <span>₹{{ "%.2f"|format(gst) }}</span></p>
+        <p>
+          <span>Discount (25%):</span>
+          <span>₹{{ "%.2f"|format(discount) }}</span>
+        </p>
+        <p class="total">
+          <span>Total Payable:</span> <span>₹{{ "%.2f"|format(total) }}</span>
+        </p>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-print" onclick="saveBill()">🖨️ save Bill</button>
+
+        <!-- Pay Button -->
+        <button
+          id="payBillBtn"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#paymentSuccessModal"
+        >
+          pay Bill
+        </button>
+      </div>
+      <p class="footer-thanks">🙏 Thank you for visiting Mauli Cafe! 🙏</p>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div
+      class="modal fade"
+      id="paymentSuccessModal"
+      tabindex="-1"
+      aria-labelledby="paymentSuccessLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered text-center">
+        <div class="modal-content p-4">
+          <div class="modal-body">
+            <div class="text-success mb-3" style="font-size: 60px">✅</div>
+            <h4 class="modal-title mb-2 text-success" id="paymentSuccessLabel">
+              Payment Successful
+            </h4>
+            <p class="text-dark">Thank you for your payment!</p>
+            <button
+              type="button"
+              class="btn btn-outline-success mt-3"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function saveBill() {
+        window.print();
+        document.getElementById("payBillBtn").style.display = "none";
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("paymentSuccessModal");
+
+        // Clear data immediately when modal is shown
+        modal.addEventListener("shown.bs.modal", () => {
+          fetch("/clear_orders", { method: "POST" })
+            .then((res) => res.text())
+            .then((msg) => {
+              console.log("✅ DB cleared:", msg);
+            })
+            .catch((err) => {
+              console.error("❌ Error clearing data:", err);
+            });
+        });
+
+        // Redirect to homepage when user clicks close button
+        const closeBtn = document.querySelector(
+          "#paymentSuccessModal .btn-outline-success"
+        );
+        closeBtn.addEventListener("click", function () {
+          window.location.href = "/";
+        });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

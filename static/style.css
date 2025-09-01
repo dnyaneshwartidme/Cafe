@@ -1,0 +1,257 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f2f2f2;
+  color: white !important;
+}
+
+.menu-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #000;
+  padding: 20px;
+  border-top: 10px solid #ffcc00;
+  border-bottom: 10px solid #ffcc00;
+}
+
+.header {
+  text-align: center;
+  background-color: #ffcc00;
+  padding: 20px;
+  color: #b30000;
+}
+
+.header h1 {
+  font-size: 36px;
+  margin: 10px 0;
+}
+
+.header p {
+  color: #000;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.menu-group {
+  flex: 1 1 45%;
+  margin: 10px;
+}
+
+.menu-group h2 {
+  background: #ffcc00;
+  color: #b30000;
+  padding: 5px 10px;
+  font-size: 20px;
+  margin: 0 0 10px;
+  display: inline-block;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #555;
+  padding: 4px 0;
+}
+
+.footer {
+  text-align: center;
+  background-color: #ffcc00;
+  color: black;
+  padding: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .menu-group {
+    flex: 1 1 100%;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #555;
+  padding: 8px 0;
+  gap: 10px;
+}
+
+.item-name {
+  flex: 1;
+}
+
+.item-price {
+  width: 60px;
+  text-align: center;
+  color: #ffcc00;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quantity-controls button {
+  background: #ffcc00;
+  color: #b30000;
+  border: none;
+  padding: 4px 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.quantity-controls .qty {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+  color: white;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns to right */
+  gap: 10px; /* Space between buttons */
+  margin: 20px 0;
+}
+
+.btn-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-container button {
+  background-color: #8b4513; /* coffee brown */
+  color: #fff;
+  border: none;
+  padding: 10px 17px;
+  margin: 0 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-container button:hover {
+  background-color: #a0522d; /* lighter brown on hover */
+  transform: scale(1.05);
+}
+
+.button-link {
+  color: white;
+  text-decoration: none;
+}
+
+/* bill page  */
+
+body {
+  background-color: #f4f6f9;
+  font-family: "Poppins", sans-serif;
+}
+
+.bill-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.bill-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.bill-header h2 {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #0d6efd;
+}
+
+.bill-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.table th {
+  background-color: #f1f1f1;
+  color: #333;
+  font-weight: 600;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.summary p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.summary p.total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0d6efd;
+  border-top: 1px dashed #ccc;
+  padding-top: 10px;
+}
+
+.btn-print {
+  background-color: #0d6efd;
+  color: #fff;
+  font-weight: 500;
+  padding: 6px 13px;
+  border-radius: 6px;
+}
+
+.btn-print:hover {
+  background-color: #0b5ed7;
+}
+
+.footer-thanks {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
+  color: #28a745;
+  animation: fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media print {
+  .btn-print,
+  .footer-thanks {
+    display: none;
+  }
+  body {
+    background: white;
+  }
+}

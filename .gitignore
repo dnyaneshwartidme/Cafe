@@ -1,0 +1,4 @@
+venv/
+instance/cafe.db
+__pycache__/
+*.pyc
