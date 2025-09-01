@@ -1,26 +1,25 @@
-from flask import Flask, render_template,  request, jsonify
-
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
+# Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 class MenuItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type= db.Column(db.String(100), nullable=False)
+    type = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     quntity = db.Column(db.Integer, nullable=False)
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()  # ensure tables created on first deploy
 
-
-
+# Routes
 @app.route("/")
 def home():
     items = MenuItem.query.all()
@@ -45,18 +44,14 @@ def place_order():
         print(e)
         return jsonify({"success": False}), 500
 
-
 @app.route("/bill")
 def bill():
     items = MenuItem.query.filter(MenuItem.quntity > 0).all()
-
     subtotal = sum(item.price * item.quntity for item in items)
     gst = round(subtotal * 0.12, 2)
     discount = round(subtotal * 0.25, 2)
     total = round(subtotal + gst - discount, 2)
-
     return render_template("bill.html", items=items, subtotal=subtotal, gst=gst, discount=discount, total=total)
-
 
 @app.route("/clear_orders", methods=["POST"])
 def clear_orders():
@@ -69,8 +64,7 @@ def clear_orders():
     except Exception as e:
         return f"Error: {str(e)}", 500
 
-
-
-
+# Production-ready run
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
