@@ -4,9 +4,10 @@ import os
 
 app = Flask(__name__)
 
-# Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
+# Database configuration – Render वर environment variable वापरा
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///cafe.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 class MenuItem(db.Model):
@@ -17,13 +18,13 @@ class MenuItem(db.Model):
     quntity = db.Column(db.Integer, nullable=False)
 
 with app.app_context():
-    db.create_all()  # ensure tables created on first deploy
+    db.create_all()  # tables तयार करा
 
 # Routes
 @app.route("/")
 def home():
     items = MenuItem.query.all()
-    custom_order = ["TEA", "SANDWICH", "HOT COFFEE",  "SIDES", "COLD COFFEE", "BURGER"]
+    custom_order = ["TEA", "SANDWICH", "HOT COFFEE", "SIDES", "COLD COFFEE", "BURGER"]
     grouped_menu = {}
     for item in items:
         grouped_menu.setdefault(item.type, []).append(item)
@@ -68,4 +69,3 @@ def clear_orders():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
