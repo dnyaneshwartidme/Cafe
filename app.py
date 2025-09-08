@@ -4,8 +4,10 @@ import os
 
 app = Flask(__name__)
 
-# Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
+# Database path सेट करताना Render वरही चालेल असा मार्ग
+base_dir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(base_dir, "cafe.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -23,7 +25,7 @@ with app.app_context():
 @app.route("/")
 def home():
     items = MenuItem.query.all()
-    custom_order = ["TEA", "SANDWICH", "HOT COFFEE",  "SIDES", "COLD COFFEE", "BURGER"]
+    custom_order = ["TEA", "SANDWICH", "HOT COFFEE", "SIDES", "COLD COFFEE", "BURGER"]
     grouped_menu = {}
     for item in items:
         grouped_menu.setdefault(item.type, []).append(item)
